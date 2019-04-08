@@ -28,11 +28,9 @@ public class Runner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		LOG.info("Sending message...");
-		try {
-			//rabbitTemplate.convertAndSend(Application.topicExchangeName, "foo.bar.baz", "Hello from RabbitMQ!");
-			rabbitTemplate.convertAndSend(Application.fanoutExchangeName, null, "Fanout exchange seems beautiful!!");
-		} catch (Exception e) {
-			e.printStackTrace();
+		for (int i = 0; i < 100; i++) {
+			rabbitTemplate.convertAndSend(Application.fanoutExchangeName, null, "Fanout exchange seems beautiful.");
+			Thread.sleep(2000);
 		}
 		receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
 	}

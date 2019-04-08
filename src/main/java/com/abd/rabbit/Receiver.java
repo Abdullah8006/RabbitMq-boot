@@ -4,6 +4,7 @@ import java.util.concurrent.CountDownLatch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,6 +18,7 @@ public class Receiver {
 	private static final Logger LOG = LoggerFactory.getLogger(Receiver.class);
 	private CountDownLatch latch = new CountDownLatch(1);
 
+	@RabbitListener(queues = { Application.queueName, Application.queueName2 })
 	public void receiveMessage(String message) {
 		LOG.info("Received <{}>", message);
 		latch.countDown();
